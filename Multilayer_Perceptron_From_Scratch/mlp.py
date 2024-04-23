@@ -146,13 +146,13 @@ def load_iris() -> Tuple[np.ndarray, np.ndarray]:
     return X, y
 
 
-def load_and_normalize_wine_quality() -> Tuple[np.ndarray, np.ndarray]:
+def load_and_normalize_wine_quality(type: str) -> Tuple[np.ndarray, np.ndarray]:
     """Load the Wine Quality dataset and normalize the features"""
-    data = pd.read_csv("winequality-white.csv", delimiter=';')
+    filename = "winequality-red.csv" if type == "red" else "winequality-white.csv"
+    data = pd.read_csv(filename, delimiter=';')
     normalized_data = (data.iloc[:, :-1] - data.iloc[:, :-1].min()) / (data.iloc[:, :-1].max() - data.iloc[:, :-1].min())
     y = pd.get_dummies(data.iloc[:, -1]).values
     return normalized_data.values, y
-
 
 def custom_train_test_split(X: np.ndarray, y: np.ndarray, test_size=0.2, random_state=42) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Custom train test split function to split the data into training and testing sets"""
@@ -217,14 +217,19 @@ def main():
     layer_sizes, activation_function, learning_rate, momentum, batch_size, epochs = get_inputs_from_user()
     # Adjust the layer sizes based on the input for both datasets
     layer_sizes_iris = [4] + layer_sizes + [3]
-    layer_sizes_wine = [11] + layer_sizes + [7]
+    layer_sizes_wine_red = [11] + layer_sizes + [6]
+    layer_sizes_wine_white = [11] + layer_sizes + [7]
     # Load and split data for Iris dataset
     X_iris, y_iris = load_iris()
     X_train_iris, X_test_iris, y_train_iris, y_test_iris = custom_train_test_split(X_iris, y_iris)
 
-    # Load and split data for Wine Quality dataset
-    X_wine, y_wine = load_and_normalize_wine_quality()
-    X_train_wine, X_test_wine, y_train_wine, y_test_wine = custom_train_test_split(X_wine, y_wine)
+    # Load and split data for Wine Quality red dataset
+    X_wine_red, y_wine_red = load_and_normalize_wine_quality('red')
+    X_train_wine_red, X_test_wine_red, y_train_wine_red, y_test_wine_red = custom_train_test_split(X_wine_red, y_wine_red)
+
+    # Load and split data for Wine Quality white dataset
+    X_wine_white, y_wine_white = load_and_normalize_wine_quality('white')
+    X_train_wine_white, X_test_wine_white, y_train_wine_white, y_test_wine_white = custom_train_test_split(X_wine_white, y_wine_white)
 
     # Create an instance of the MLP class for Iris dataset
     mlp_iris = MLP(layer_sizes_iris, activation_function, learning_rate, momentum, batch_size, epochs)
@@ -235,24 +240,38 @@ def main():
     test_accuracy_iris = mlp_iris.evaluate(X_test_iris, y_test_iris)
     mlp_iris.plot_errors()
 
-    # Create an instance of the MLP class for Wine Quality dataset
-    mlp_wine = MLP(layer_sizes_wine, activation_function, learning_rate, momentum, batch_size, epochs)
+    # Create an instance of the MLP class for Wine Quality Red dataset
+    mlp_wine = MLP(layer_sizes_wine_red, activation_function, learning_rate, momentum, batch_size, epochs)
     # Train the model for Wine Quality dataset
-    mlp_wine.fit(X_train_wine, y_train_wine, X_test_wine, y_test_wine)
-    # Evaluate the model for Wine Quality dataset
-    train_accuracy_wine = mlp_wine.evaluate(X_train_wine, y_train_wine)
-    test_accuracy_wine = mlp_wine.evaluate(X_test_wine, y_test_wine)
+    mlp_wine.fit(X_train_wine_red, y_train_wine_red, X_test_wine_red, y_test_wine_red)
+    # Evaluate the model for Wine Quality Red dataset
+    train_accuracy_wine = mlp_wine.evaluate(X_train_wine_red, y_train_wine_red)
+    test_accuracy_wine = mlp_wine.evaluate(X_test_wine_red, y_test_wine_red)
     mlp_wine.plot_errors()
+
+    # Create an instance of the MLP class for Wine Quality White dataset
+    mlp_wine_white = MLP(layer_sizes_wine_white, activation_function, learning_rate, momentum, batch_size, epochs)
+    # Train the model for Wine Quality dataset
+    mlp_wine_white.fit(X_train_wine_white, y_train_wine_white, X_test_wine_white, y_test_wine_white)
+    # Evaluate the model for Wine Quality White dataset
+    train_accuracy_wine_white = mlp_wine_white.evaluate(X_train_wine_white, y_train_wine_white)
+    test_accuracy_wine_white = mlp_wine_white.evaluate(X_test_wine_white, y_test_wine_white)
+    mlp_wine_white.plot_errors()
 
     # Print results for Iris dataset
     print("Iris Dataset:")
     print(f"Train Accuracy: {train_accuracy_iris:.2f}")
     print(f"Test Accuracy: {test_accuracy_iris:.2f}")
 
-    # Print results for Wine Quality dataset
-    print("\nWine Quality Dataset:")
+    # Print results for Wine Quality Red dataset
+    print("Wine Quality Red Dataset:")
     print(f"Train Accuracy: {train_accuracy_wine:.2f}")
     print(f"Test Accuracy: {test_accuracy_wine:.2f}")
+
+    # Print results for Wine Quality White dataset
+    print("Wine Quality White Dataset:")
+    print(f"Train Accuracy: {train_accuracy_wine_white:.2f}")
+    print(f"Test Accuracy: {test_accuracy_wine_white:.2f}")
 
 
 if __name__ == "__main__":
