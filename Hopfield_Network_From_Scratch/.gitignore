@@ -1,0 +1,3 @@
+# Exclude __pycache__ and vscode files
+**/__pycache__/
+**/.vscode/

@@ -1,0 +1,185 @@
+/* General page layout */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+/* Page heading */
+h1 {
+  color: #5a76a7;
+  text-align: center;
+}
+
+/* Form styling */
+form {
+  background: white;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Label styling */
+label {
+  font-weight: bold;
+  display: block;
+}
+
+.instructions {
+  margin-bottom: 10px;
+}
+
+/* Text input fields */
+input[type="text"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Submit button */
+input[type="submit"] {
+  background-color: #5a76a7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+  background-color: #4a5a6b;
+}
+
+/* Notification message */
+p {
+  background: #e7f5ff;
+  padding: 10px;
+  border-left: 5px solid #5a76a7;
+  margin: 20px auto;
+  max-width: 500px;
+  border-radius: 4px;
+}
+
+/* Align polarity radio buttons horizontally */
+.toggle-polarity {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px) translateY(-50%);
+  -ms-transform: translateX(26px) translateY(-50%);
+  transform: translateX(26px) translateY(-50%);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.selectors {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+/* Make the switch and the labels surrounding it align horizontally */
+.switch-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.switch-label {
+  font-weight: bold;
+  margin-bottom: 0 !important;
+}
+
+/* Style for file input fields */
+input[type="file"] {
+  width: calc(100% - 22px); /* Match width of text inputs */
+  padding: 10px;
+  margin-bottom: 20px; /* Consistent spacing */
+  border: 1px solid #ccc; /* Match border of text inputs */
+  border-radius: 4px; /* Rounded corners like other inputs */
+  cursor: pointer; /* Cursor pointer on hover */
+  background-color: white; /* Background color matching the form */
+  outline: none; /* Removing default focus outline for cleaner look */
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #5a76a7; /* Button color matching submit button */
+  color: white; /* Text color for contrast */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px; /* Rounded corners for the button */
+  cursor: pointer; /* Consistent cursor style */
+  text-transform: none;
+  transition: background-color 0.3s;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #4a5a6b; /* Darker on hover, matching submit button */
+}
